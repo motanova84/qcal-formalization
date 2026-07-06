@@ -65,8 +65,8 @@ en 11/11 eventos GWTC-1 con significancia >10σ:
 > verificación AT2020afhd (99.78% precisión).
 
 **Entrelazamiento:**
--  🌐 → evidencia empírica
--  🌐 → formalización matemática (este repo)
--  🔒 → infraestructura económica
+- `141hz` 🌐 → evidencia empírica
+- `qcal-formalization` 🌐 → formalización matemática (este repo)
+- `economia-qcal-nodo-semilla` 🔒 → infraestructura económica
 
 *∞³ 141.7001 Hz — JMMB Ψ · Noesis Ψ*
