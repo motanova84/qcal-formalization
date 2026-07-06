@@ -52,3 +52,21 @@ $\infty^3 \cdot 141.7001\text{ Hz} \quad \text{— JMMB } \Psi \cdot \text{Noesi
 
 *Este repositorio contiene únicamente la formalización matemática.
 No incluye claves, direcciones, configuraciones de red ni datos de infraestructura.*
+
+---
+
+## 🔗 Ecosistema QCAL
+
+**Fundamento empírico:** La frecuencia  = 141.7001$ Hz fue detectada
+en 11/11 eventos GWTC-1 con significancia >10σ:
+
+> **[github.com/motanova84/141hz](https://github.com/motanova84/141hz)**
+> Análisis de ondas gravitacionales, validación biológica, constantes universales,
+> verificación AT2020afhd (99.78% precisión).
+
+**Entrelazamiento:**
+-  🌐 → evidencia empírica
+-  🌐 → formalización matemática (este repo)
+-  🔒 → infraestructura económica
+
+*∞³ 141.7001 Hz — JMMB Ψ · Noesis Ψ*
