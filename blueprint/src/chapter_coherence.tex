@@ -1,0 +1,39 @@
+\chapter{Flujo de Renormalización y Coherencia}
+
+\section{Frecuencia Base y Delta de Coherencia}
+
+La frecuencia base del sistema es:
+\[
+f_{\text{bare}} = \frac{27 \times 33}{2\pi}
+\]
+
+que da lugar al delta de coherencia:
+\[
+\Delta_c = f_{\text{bare}} - f_0 = 0.1054947116\ \text{Hz}
+\]
+
+\section{Punto Fijo}
+
+El flujo de renormalización:
+\[
+\beta(\Psi) = -\alpha\Psi, \quad \alpha = \frac{\Delta_c}{f_{\text{bare}}}
+\]
+
+produce la frecuencia efectiva:
+\[
+f_{\text{eff}}(\Psi) = f_{\text{bare}} \left(1 - \alpha\Psi\right)
+\]
+
+que alcanza su punto fijo en $\Psi_{\text{target}} = 0.999999$:
+\[
+f_{\text{eff}}(\Psi_{\text{target}}) = f_0 = 141.7001\ \text{Hz}
+\]
+
+\section{Acción Noética de Ginzburg-Landau}
+
+La acción que gobierna la dinámica es:
+\[
+S[\Psi] = \int \left( \frac12 (\partial_t \Psi)^2 - \frac12 \Psi^2 + \frac14 \Psi^4 + \alpha\Psi \right) dt
+\]
+
+cuyo mínimo global se alcanza en $\Psi = \Psi_{\text{target}}$.

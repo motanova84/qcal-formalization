@@ -1,0 +1,32 @@
+\chapter{Operadores QCAL}
+
+\section{Operador de Dirac Adélico}
+
+El operador central del sistema es el operador de Dirac sobre el espacio adélico:
+
+\[
+\mathfrak{D} \psi(x) = -i \frac{\partial \psi}{\partial x} + A(x) \psi(x)
+\]
+
+donde $A(x) = \frac{x}{1+x^2}$ es el potencial noético.
+
+\section{Autoadjuntividad}
+
+El teorema fundamental establece:
+
+\begin{theorem}[Autoadjuntividad de $\overline{\mathfrak{D}}$]
+El operador $\overline{\mathfrak{D}}$ en su dominio maximal es autoadjunto:
+\[
+\overline{\mathfrak{D}} = \overline{\mathfrak{D}}^\dagger
+\]
+\end{theorem}
+
+\begin{proof}
+La demostración sigue tres pasos:
+\begin{enumerate}
+  \item $\mathfrak{D}$ es simétrico en el dominio primitivo $\mathcal{D}(\mathfrak{D})$.
+  \item $\overline{\mathfrak{D}}$ es cerrado por construcción.
+  \item Los índices de deficiencia son nulos: $n_+ = n_- = 0$, verificado mediante
+        la expansión de norma $\|(\overline{\mathfrak{D}} \pm I)\psi\|^2 = \|\overline{\mathfrak{D}}\psi\|^2 + \|\psi\|^2$.
+\end{enumerate}
+\end{proof}

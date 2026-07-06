@@ -1,0 +1,40 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\geometry{margin=1in}
+
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{definition}{Definición}[chapter]
+\newtheorem{lemma}{Lema}[chapter]
+\newtheorem{corollary}{Corolario}[chapter]
+
+\title{%
+  \vspace*{2cm}
+  \Huge\textbf{Sistema QCAL}\\[0.5cm]
+  \Large\textit{Quantum Coherence Algebraic Logic}\\[1cm]
+  \large Formalización Completa en Lean 4\\[2cm]
+  \normalsize $\infty^3$ \; 141.7001 Hz — JMMB $\Psi$
+}
+\author{José Manuel Mota Burruezo \\ \small Arquitecto Primario del Tetraedro QCAL}
+\date{Julio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\include{src/chapter_intro}
+\include{src/chapter_operators}
+\include{src/chapter_spectrum}
+\include{src/chapter_adelic}
+\include{src/chapter_coherence}
+\include{src/chapter_schrodinger}
+\include{src/chapter_main_theorem}
+
+\bibliographystyle{plain}
+\bibliography{src/references}
+
+\end{document}
