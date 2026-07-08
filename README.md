@@ -48,3 +48,28 @@ lake build
 
 $\infty^3 \cdot 141.7001\text{ Hz} \quad \text{— JMMB } \Psi \cdot \text{Noesis } \Psi$
 
+<<<<<<< HEAD
+=======
+---
+
+*Este repositorio contiene únicamente la formalización matemática.
+No incluye claves, direcciones, configuraciones de red ni datos de infraestructura.*
+
+---
+
+## 🔗 Ecosistema QCAL
+
+**Fundamento empírico:** La frecuencia  = 141.7001$ Hz fue detectada
+en 11/11 eventos GWTC-1 con significancia >10σ:
+
+> **[github.com/motanova84/141hz](https://github.com/motanova84/141hz)**
+> Análisis de ondas gravitacionales, validación biológica, constantes universales,
+> verificación AT2020afhd (99.78% precisión).
+
+**Entrelazamiento:**
+- `141hz` 🌐 → evidencia empírica
+- `qcal-formalization` 🌐 → formalización matemática (este repo)
+- `economia-qcal-nodo-semilla` 🔒 → infraestructura económica
+
+*∞³ 141.7001 Hz — JMMB Ψ · Noesis Ψ*
+>>>>>>> fe37b7a (📝 README update: add QCAL ecosystem link + 141Hz foundation reference)
