@@ -39,18 +39,19 @@ lemma deficiency_minus_nonL2 (C : ℂ) (hC : C ≠ 0) : ¬ MemL2 (λ x : ℝ ↦
   exact absurd (h_l2.2) h_norm
 
 theorem arch_deficiency_zero (z : ℂ) (hz : z = I ∨ z = -I) (ψ : ℝ → ℂ) (h_mem : MemL2 ψ volume)
+    (h_diff : DifferentiableOn ℝ ψ (Set.Ioi 0))
     (h_adj : ∀ x > 0, (x : ℂ) * deriv ψ x = (-1/2 - I * z) * ψ x) : ψ = 0 := by
   have hc_plus : (-1/2 - I * I) = (-3/2 : ℂ) := by rw [I_sq]; ring
   have hc_minus : (-1/2 - I * (-I)) = (1/2 : ℂ) := by simp; ring
   rcases hz with rfl | rfl
-  · rcases archimedean_ode_solution ψ (-3/2) (by sorry) h_adj with ⟨C, hC⟩
+  · rcases archimedean_ode_solution ψ (-3/2) h_diff h_adj with ⟨C, hC⟩
     by_contra hCne; have hC_nonzero : C ≠ 0 := hCne
     have h_plus : ∀ x ∈ Ioo 0 1, ψ x = C * (x : ℂ) ^ (-3/2) := by intro x hx; exact hC x hx.1
     have h_mem_plus : MemL2 ψ (volume.restrict (Ioo 0 1)) := h_mem.mono_set (subset_univ _)
     have h_not_l2 := deficiency_plus_nonL2 C hC_nonzero
     have h_eq : ψ = λ x ↦ C * (x : ℂ) ^ (-3/2) on Ioo 0 1 := by ext x; exact h_plus x
     rw [h_eq] at h_mem_plus; exact h_not_l2 h_mem_plus
-  · rcases archimedean_ode_solution ψ (1/2) (by sorry) h_adj with ⟨C, hC⟩
+  · rcases archimedean_ode_solution ψ (1/2) h_diff h_adj with ⟨C, hC⟩
     by_contra hCne; have hC_nonzero : C ≠ 0 := hCne
     have h_minus : ∀ x > 1, ψ x = C * (x : ℂ) ^ (1/2) := by intro x hx; exact hC x (by linarith)
     have h_mem_minus : MemL2 ψ (volume.restrict (Ioi 1)) := h_mem.mono_set (subset_univ _)
