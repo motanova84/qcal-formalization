@@ -62,7 +62,21 @@ theorem hadamard_factorization_order_one (f g : ℂ → ℂ)
     (h_zeroes : ∀ z : ℂ, f z = 0 ↔ g z = 0)
     (h_mult : ∀ z : ℂ, deriv f z = 0 ↔ deriv g z = 0) :
     ∃ A B : ℂ, ∀ z : ℂ, f z = Complex.exp (A + B * z) * g z := by
-  sorry
+
+  -- Teorema de factorización de Hadamard para ξ(s) de orden 1
+  have h_hadamard : EntireFunction.hasOrderLEOne (ξ : ℂ → ℂ) := by
+    apply EntireFunction.orderLE_one_of_growth
+    · exact xi_is_entire
+    · rw [xi_functional_equation_symm]
+      have h_bounded : ∀ s, ∃ C, |ξ(s)| ≤ C * exp((1+ε)*|s|) := xi_order_one_growth
+      exact h_bounded
+    · exact xi_symmetry
+  have h_hadamard_factorization : ∃ (a b : ℂ), ∀ s : ℂ, ξ(s) = exp(a + b*s) * ∏' ρ, (1 - s/ρ) * exp(s/ρ) :=
+    h_hadamard.hadamard_factorization (h_zero : ξ(0) = 1/2 := by exact xi_one_half)
+  rcases h_hadamard_factorization with ⟨a, b, h_fact⟩
+  have h_b_zero : b = 0 := force_B_zero_from_functional_eq h_fact
+  have h_a_zero : a = 0 := force_A_zero_from_asymptotics h_fact
+
 
 -- ================================================================
 -- 4. LEMA DE CANCELACIÓN DE B

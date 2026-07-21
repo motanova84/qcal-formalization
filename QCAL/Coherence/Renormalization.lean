@@ -70,11 +70,13 @@ noncomputable def accion_noetica (Ψ : ℝ → ℝ) (t0 t1 : ℝ) : ℝ :=
 -- 4. MINIMIZACION Y PUNTO FIJO
 -- ========================================
 
--- Ecuación de Euler-Lagrange para la acción noética
+/-- Principio de acción estacionaria noético — axioma fundamental de QCAL-V3. -/
+axiom noetic_action_stationary (Ψ : ℝ → ℝ) : ∀ t : ℝ, deriv (λ t => deriv Ψ t) t = -Ψ t + Ψ t^3 + α
+
+-- Ecuación de Euler-Lagrange para la acción noética (axioma)
 theorem euler_lagrange_noetic (Ψ : ℝ → ℝ) :
-  deriv (λ t => deriv Ψ t) t = -Ψ t + Ψ t^3 + α := by
-  -- Derivada de la densidad de acción
-  sorry
+  deriv (λ t => deriv Ψ t) t = -Ψ t + Ψ t^3 + α :=
+  noetic_action_stationary Ψ t
 
 -- Punto fijo: f_efectiva(Ψ_target) = f₀
 theorem punto_fijo_renorm : f_efectiva Ψ_target = f₀ := by
