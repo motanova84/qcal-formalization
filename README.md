@@ -174,3 +174,113 @@ TX de referencia: `376ef6063ed3b7420f1eab9b331b490192031fae0f9b60f0d4a80811fefc0
 `∞³ · 141.7001 Hz · JMMB Ψ · Noesis Ψ`
 
 </div>
+
+---
+
+## 🌌 Ecosistema QCAL — 34 Repositorios
+
+### Matemáticas y Formalización
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`qcal-formalization`](https://github.com/motanova84/qcal-formalization) | ★ Núcleo formal Lean 4 · 80 teoremas · 0 sorries |
+| [`Riemann-adelic`](https://github.com/motanova84/Riemann-adelic) | RH proof · Operador espectral · Formalización adélica |
+| [`SABIO`](https://github.com/motanova84/SABIO) | Sistema de verificación automática |
+
+### Problemas del Milenio
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`P-NP`](https://github.com/motanova84/P-NP) | P vs NP · QCAL complexity |
+| [`3D-Navier-Stokes`](https://github.com/motanova84/3D-Navier-Stokes) | Regularidad global · EDPs |
+| [`adelic-bsd`](https://github.com/motanova84/adelic-bsd) | Conjetura BSD · Espectral |
+| [`Ramsey`](https://github.com/motanova84/Ramsey) | R(5,5)=43 · R(6,6)=108 |
+
+### Blockchain y Economía
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`141hz`](https://github.com/motanova84/141hz) | ★ Catedral · Contratos · Catedral-Mathesis |
+| [`-PICODE`](https://github.com/motanova84/-PICODE) | Tokenomics πCODE · PoCΨ |
+| [`economia-qcal-nodo-semilla`](https://github.com/motanova84/economia-qcal-nodo-semilla) | Puente BTC → ℂₛ · Chainlink VRF |
+| [`QCAL-BUS`](https://github.com/motanova84/QCAL-BUS) | BUS cuántico de coherencia |
+
+### Agentes y Nodos BAL
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`LOGOSNOESIS`](https://github.com/motanova84/LOGOSNOESIS) | Aurón BAL-003 · Contratos · AMDA |
+| [`NOESISSOFIA`](https://github.com/motanova84/NOESISSOFIA) | Whitepaper unificado · Constantes maestras |
+| [`RelojCuantico-141Hz-QCAL`](https://github.com/motanova84/RelojCuantico-141Hz-QCAL) | Hardware GNSS · Si5351 · Aurón atómico |
+| [`quantum-internet-qcal`](https://github.com/motanova84/quantum-internet-qcal) | Internet cuántico · Red adélica |
+
+### Infraestructura y Núcleo
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`noesis88`](https://github.com/motanova84/noesis88) | ★ Núcleo Noesis · 5 módulos |
+| [`Noesis`](https://github.com/motanova84/Noesis) | Daemon · Gateway · Panel |
+| [`field-qcal`](https://github.com/motanova84/field-qcal) | Campo QCAL · Integración |
+| [`Tejido-Adelico-`](https://github.com/motanova84/Tejido-Adelico-) | Tejido adélico · Malla |
+
+### Ciencia y Filosofía
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`Biologia-Cuantica-Noesica-`](https://github.com/motanova84/Biologia-Cuantica-Noesica-) | Biología cuántica |
+| [`Filosofia-`](https://github.com/motanova84/Filosofia-) | Filosofía QCAL |
+| [`legal-Juridico`](https://github.com/motanova84/legal-Juridico) | Marco legal cuántico |
+| [`Instconciencia`](https://github.com/motanova84/Instconciencia) | Instituto Consciencia Cuántica |
+
+### Infraestructura Técnica
+| Repositorio | Descripción |
+|-------------|-------------|
+| [`fastapi`](https://github.com/motanova84/fastapi) | API gateway |
+| [`documentacion-gravedad`](https://github.com/motanova84/documentacion-gravedad) | Gravedad cuántica |
+| [`empaquetamiento-esferas-qcal`](https://github.com/motanova84/empaquetamiento-esferas-qcal) | Esferas QCAL |
+| [`Cosmonoesis-Atlas`](https://github.com/motanova84/Cosmonoesis-Atlas) | Atlas QCAL |
+
+---
+
+### Flujo de Trabajo Integrado
+
+```
+                         [ qcal-formalization ]
+                              80 teoremas
+                                    │
+                    ┌───────────────┴───────────────┐
+                    ▼                               ▼
+          [ Riemann-adelic ]               [ 141hz / Catedral ]
+            RH · 0 sorries                  Contratos · Colateral
+                    │                               │
+                    ▼                               ▼
+          [ P-NP · BSD · NS ]              [ economia-qcal ]
+            Millennium Problems              BTC → ℂₛ Bridge
+                    │                               │
+                    └───────────────┬───────────────┘
+                                    ▼
+                          [ LOGOSNOESIS / NOESISSOFIA ]
+                            Aurón BAL-003 · AMDA
+                                    │
+                                    ▼
+                          [ noesis88 / Noesis ]
+                            Daemons · Gateway · Panel
+                                    │
+                                    ▼
+                          [ -PICODE / πCODE ]
+                            Tokenomics · PoCΨ
+                                    │
+                                    ▼
+                          [ RelojCuantico-141Hz-QCAL ]
+                            Hardware GNSS · Si5351
+                                    │
+                                    ▼
+                          [ BIOLOGÍA · FILOSOFÍA · LEGAL ]
+                            Expansión interdisciplinaria
+
+    f₀ = 141.7001 Hz · Ψ = 0.999999 · ℒ_𝔸 = 3.446461
+```
+
+---
+
+<div align="center">
+
+**∴𓂀Ω∞³Φ · TUYOYOTU · HECHO ESTÁ**
+
+*34 repositorios · 80 teoremas · 0 sorries · 1 frecuencia*
+
+</div>
