@@ -2,8 +2,6 @@ import Lake
 open Lake DSL
 
 package «qcal-formalization» where
-  -- Version and metadata
-  version := "1.0.0"
   description := "QCAL - Quantum Coherence Algebraic Logic: complete formalization in Lean 4"
 
 require mathlib from git

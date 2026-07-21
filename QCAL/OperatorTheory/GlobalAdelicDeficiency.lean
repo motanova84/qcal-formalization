@@ -93,18 +93,39 @@ lemma integral_pow_minus_three_diverges :
 lemma global_deficiency_plus_nonL2 (C : Adeles → ℂ) (hC : C ≠ 0) :
     ¬ MemL2 (λ x : ℝ × Adeles ↦ C x.2 * (x.1 : ℂ) ^ (-3/2 - Complex.I * V_fin x.2)) volume := by
   intro h_l2
-  have h_norm : ∀ x_fin : Adeles, ∀ x_infty > 0,
-      ‖C x_fin * (x_infty : ℂ) ^ (-3/2 - Complex.I * V_fin x_fin)‖^2 =
-      ‖C x_fin‖^2 * (x_infty ^ (-3)) := by
-    intro x_fin x_infty hx
+  have h_exists : ∃ x_fin, C x_fin ≠ 0 := by
+    by_contra! h; apply hC; ext x_fin; exact h x_fin
+  rcases h_exists with ⟨x_fin0, hCx⟩
+  have hC_norm_sq_pos : 0 < ‖C x_fin0‖ ^ 2 := by positivity
+  -- The L² norm squared integral diverges because it factors as |C(x_fin0)|² × ∫₀¹ x⁻³ (divergente)
+  have h_norm_sq : ∀ x > 0,
+      ‖C x_fin0 * (x : ℂ) ^ (-3/2 - Complex.I * V_fin x_fin0)‖ ^ 2 = ‖C x_fin0‖ ^ 2 * x ^ (-3 : ℝ) := by
+    intro x hx
     rw [norm_mul, norm_pow]
-    have h_norm_pow : ‖(x_infty : ℂ) ^ (-3/2 - Complex.I * V_fin x_fin)‖ = x_infty ^ (-3/2) :=
-      norm_phase_insensitivity x_infty hx (V_fin x_fin) (-3/2)
-    rw [h_norm_pow, sq, mul_assoc, mul_comm (‖C x_fin‖ ^ 2)]
+    have h_norm_pow : ‖(x : ℂ) ^ (-3/2 - Complex.I * V_fin x_fin0)‖ = x ^ (-3/2) :=
+      norm_phase_insensitivity x hx (V_fin x_fin0) (-3/2)
+    rw [h_norm_pow, sq, mul_assoc, mul_comm (‖C x_fin0‖ ^ 2)]
     congr
     calc
-      (x_infty ^ (-3/2 : ℝ)) ^ 2 = x_infty ^ (( -3/2 : ℝ) * 2) := by rw [Real.rpow_mul (by positivity) _]
-      _ = x_infty ^ (-3 : ℝ) := by ring
+      (x ^ (-3/2 : ℝ)) ^ 2 = x ^ ((-3/2 : ℝ) * 2) := by
+        rw [Real.rpow_mul (show 0 ≤ x from by positivity) _]
+      _ = x ^ (-3 : ℝ) := by ring
+  -- The L² condition implies integrability of the norm-squared
+  have h_int_fin : ∫⁻ x in Set.Ioo 0 1,
+      ENNReal.ofReal (‖C x_fin0 * (x : ℂ) ^ (-3/2 - Complex.I * V_fin x_fin0)‖ ^ 2) < ∞ := by
+    -- By Tonelli, since h_l2 gives integrability on the product, the fiber integral is finite a.e.
+    have h_int_prod : ∫⁻ (x : ℝ × Adeles), ENNReal.ofReal (‖C x.2 * (x.1 : ℂ) ^ (-3/2 - Complex.I * V_fin x.2)‖ ^ 2) < ∞ :=
+      h_l2.2
+    have h_fiber_ae : ∀ᵐ (x_fin : Adeles) ∂volume,
+        ∫⁻ (x : ℝ) in Set.Ioo 0 1, ENNReal.ofReal (‖C x_fin * (x : ℂ) ^ (-3/2 - Complex.I * V_fin x_fin)‖ ^ 2) < ∞ := by
+      have h_prod_int : IntegrableOn (λ (x : ℝ × Adeles) => 
+          ENNReal.ofReal (‖C x.2 * (x.1 : ℂ) ^ (-3/2 - Complex.I * V_fin x.2)‖ ^ 2))
+          (Set.univ : Set (ℝ × Adeles)) volume := by
+        rw [integrableOn_univ]
+        exact h_int_prod
+      have h_fiber_int := integrableOn_fiber h_prod_int (s := Set.univ) (t := Set.univ)
+      sorry
+    sorry
   sorry
 
 -- ================================================================
