@@ -3,13 +3,8 @@
   "resolved": [],
   "remaining": [
     [
-      "QCAL/FredholmXiIdentity.lean",
-      65,
-      "sorry"
-    ],
-    [
       "QCAL/OperatorTheory/GlobalAdelicDeficiency.lean",
-      108,
+      127,
       "sorry"
     ],
     [
@@ -19,22 +14,17 @@
     ],
     [
       "QCAL/OperatorTheory/GlobalAdelicDeficiency.lean",
-      142,
+      129,
       "sorry"
     ],
     [
-      "QCAL/OperatorTheory/ArchimedeanDeficiency.lean",
-      46,
-      "\u00b7 rcases archimedean_ode_solution \u03c8 (-3/2) (by sorry) h_adj with \u27e8C, hC\u27e9"
+      "QCAL/OperatorTheory/GlobalAdelicDeficiency.lean",
+      149,
+      "sorry"
     ],
     [
-      "QCAL/OperatorTheory/ArchimedeanDeficiency.lean",
-      53,
-      "\u00b7 rcases archimedean_ode_solution \u03c8 (1/2) (by sorry) h_adj with \u27e8C, hC\u27e9"
-    ],
-    [
-      "QCAL/Coherence/Renormalization.lean",
-      77,
+      "QCAL/OperatorTheory/GlobalAdelicDeficiency.lean",
+      163,
       "sorry"
     ],
     [
@@ -68,11 +58,6 @@
       "sorry"
     ],
     [
-      "QCAL/Kernel/ClosedLemmas.lean",
-      24,
-      "_ \u2264 Real.exp (C * Real.exp (k * \u2016z\u2016)) := Real.exp_le_exp.mpr hKb; _ \u2264 Real.exp C * Real.exp (k * \u2016z\u2016) := by sorry"
-    ],
-    [
       "QCAL/Quantum/SchrodingerRiemann.lean",
       65,
       "sorry"
@@ -83,6 +68,6 @@
       "sorry"
     ]
   ],
-  "count": 16,
-  "updated": "2026-07-21T17:26:57.452455"
+  "count": 13,
+  "updated": "2026-07-21T17:38:19.157640"
 }
