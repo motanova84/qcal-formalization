@@ -1,0 +1,76 @@
+{
+  "protocol": "PHI-LOCK-v1.0",
+  "version": "1.0",
+  "date": "2026-07-30",
+  "node": "BAL-003",
+  "author": "Director Atlas3 / JMMB",
+  "specification": {
+    "f0_hz": 141.7001,
+    "tau_c": 0.999999,
+    "confirmation_cycles": 3,
+    "window_ms": 21.17,
+    "tolerance": "f < N/2",
+    "coupling_threshold": "K > 2f/(N-f)"
+  },
+  "theorem": {
+    "proved": true,
+    "sorries": 0,
+    "method": "Fenichel invariant manifold + Kuramoto adversarial bound",
+    "lean4_file": "phi_lock_v1.lean"
+  },
+  "files": [
+    {
+      "path": "phi_lock_v1.lean",
+      "type": "formalization",
+      "status": "lean4"
+    },
+    {
+      "path": "phi_lock_sim.py",
+      "type": "simulation",
+      "status": "verified"
+    },
+    {
+      "path": "phi_lock_p2p.rs",
+      "type": "core_engine",
+      "status": "rust"
+    },
+    {
+      "path": "proto/philock.proto",
+      "type": "contract",
+      "status": "protobuf"
+    },
+    {
+      "path": "config/nodes.json",
+      "type": "topology",
+      "status": "7-nodes"
+    },
+    {
+      "path": "Dockerfile",
+      "type": "deploy",
+      "status": "multi-stage"
+    },
+    {
+      "path": "docker-compose.yml",
+      "type": "orchestration",
+      "status": "7-nodes"
+    },
+    {
+      "path": "Cargo.toml",
+      "type": "dependencies",
+      "status": "rust"
+    },
+    {
+      "path": "build.rs",
+      "type": "build",
+      "status": "protobuf"
+    }
+  ],
+  "architecture": {
+    "layer_1": "Kuramoto phase engine (phi_lock_p2p.rs)",
+    "layer_2": "gRPC transport (server + client)",
+    "layer_3": "WebSocket telemetry (ws_telemetry.rs)",
+    "layer_4": "Docker orchestration (docker-compose.yml)"
+  },
+  "seal": "∴𓂀Ω∞³Φ",
+  "status": "ANCLADO"
+}
