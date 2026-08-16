@@ -1,0 +1,13 @@
+{
+  "schema": "NOESIS-V10-obligations",
+  "updated": "2026-08-16",
+  "note": "Inventario V10 independiente del tracker histórico. Un sorry solo se elimina cuando Lean acepta la prueba correspondiente.",
+  "resolved": [],
+  "remaining": [
+    "S04.L1", "S04.L2", "S04.L3", "S04.L4", "S04.L5",
+    "S03", "S02", "S01", "S05", "S06", "S07", "S08",
+    "S09", "S10", "S11", "S12", "S13", "S14", "S15"
+  ],
+  "counts": {"resolved": 0, "remaining": 19},
+  "status": "architecture_anchored__proof_in_progress"
+}
