@@ -1,10 +1,12 @@
 # NOĒSIS V10 — Construction Status
 
-**Branch:** `noesis/s10-compactness-anchor`
+**Canonical repository:** `motanova84/qcal-formalization`
+
+**Working branch:** `noesis/s10-compactness-anchor`
 
 ## Current state
 
-The V10 architecture is anchored in the repository as a separate, auditable layer. Existing QCAL formalizations are preserved. The new layer does not overwrite earlier certification artifacts.
+The V10 architecture is consolidated in this repository as one auditable construction layer. Historical QCAL material remains preserved, but the S01–S15 route is not to be dispersed across repositories.
 
 ### Build order
 
@@ -27,48 +29,70 @@ S08 W growth
   ↓
 S09 quadratic form
   ↓
-S10 compactness        ← CURRENT
+S10 compact embedding / compact resolvent
   ↓
-S11 self-adjoint total operator
+S11 self-adjoint total operator + spectral basis
   ↓
-S12 trace formula
+S12 eigenvalue counting asymptotic
   ↓
-S13 determinant
+S13 trace / determinant mechanism
   ↓
-S14 spectrum ↔ zeros
+S14 spectrum ↔ ξ zeros
   ↓
 S15 multiplicities
   ↓
-RH
+RH gate
 ```
 
 ## Mathematical discipline
 
-The repository contains historical documents that describe completed/certified results. The V10 ledger is stricter: executable Lean code, a mathematical proof, and a prose specification are three different states.
+The ledger distinguishes three states:
 
-A theorem containing `sorry`, an interface structure, or a prose claim is **not** counted as a proved theorem in the V10 ledger.
+1. executable Lean code;
+2. mathematically proved result;
+3. prose/specification contract.
 
-## S10 status
+A theorem containing `sorry`, an interface structure, or a prose claim is **not** counted as a Lean-proved theorem.
 
-**Specification: ANCHORED**
+## S10
 
-`QCAL/NoesisV10/S10_Compactness_Spec.md` records the complete proof contract:
+**Specification: ANCHORED. Lean closure: PENDING.**
 
-`weighted form domain → uniform tail control → local Rellich → diagonal subsequence → global L² compactness → compact resolvent → discrete spectrum.`
+`QCAL/NoesisV10/S10_Compactness_Spec.md` records the proof contract:
 
-`QCAL/NoesisV10/S10_Compactness.lean` contains only the checked interface definitions. It intentionally does not introduce `sorry` or `axiom` to manufacture a completed theorem.
+`weighted form domain → uniform tail control → local Rellich → diagonal extraction → global L² compactness → compact resolvent → discrete spectrum.`
 
-**Lean proof status: PENDING** until the exact Mathlib implementation of the H¹ restriction, local Rellich theorem, diagonal extraction and form-to-resolvent implication compiles without placeholders.
+## S11
 
-## First closure targets
+**Mathematical construction: CONSOLIDATED. Lean closure: PENDING.**
 
-1. S01: exact quotient model and Haar measure used by the analytic construction.
-2. S02/S03: operator domain and Mellin normalization.
-3. S04: shift operators and adjoint relations.
-4. S05/S06: legitimate operator construction for the regularized arithmetic term.
-5. S07/S08/S09: confinement, growth and closed quadratic form.
-6. S10: compactness of the form-domain embedding.
+`QCAL/NoesisV10/S11_OperatorBasis_Spec.md` fixes the correct form-to-operator route.
 
-## Gate before any RH certification
+Critical correction: `H` is generally unbounded; it is the shifted resolvent `(H+c)⁻¹`, not `H`, that is compact. The complete orthonormal eigenbasis follows from the spectral theorem for self-adjoint operators with compact resolvent. The earlier claim `‖H‖ = sup |λₙ|` is rejected because `λₙ → ∞`.
 
-S11–S15 must be independently closed. In particular, self-adjointness plus a discrete real spectrum is insufficient by itself; the exact equality between that spectrum and the nontrivial zeros of ξ, including multiplicities, is the decisive bridge.
+## S12
+
+**Asymptotic diagnosis: CONSOLIDATED. Exact semiclassical proof: PENDING.**
+
+`QCAL/NoesisV10/S12_LogPotential_Asymptotic_Spec.md` establishes the required target calculation for
+
+`W_α(u)=α log(1+u²)`:
+
+`N_H(T) ~ sqrt(2α/π) exp(T/(2α))`.
+
+The previously stated extra factor `√T` is explicitly rejected.
+
+Therefore this confinement has exponentially growing state count, incompatible with the Riemann–von Mangoldt scale `N_ξ(T) ~ (T/(2π)) log(T/(2πe))`. No fixed `α>0` repairs that mismatch. S13–S15 must therefore not force an identification `λₙ=γₙ` for this potential.
+
+## Closure targets
+
+- S10: formalize compact embedding and compact resolvent with exact Mathlib APIs.
+- S11: formalize the closed form, associated self-adjoint operator and compact-resolvent spectral basis.
+- S12: formalize the semiclassical counting asymptotic under the exact hypotheses on `V_ε`.
+- S13: construct the trace/determinant mechanism without fitting parameters to zeros.
+- S14: prove, rather than assume, any spectral correspondence with `ξ`.
+- S15: prove multiplicity preservation.
+
+## RH gate
+
+S10–S15 are independent gates. Self-adjointness, discreteness, numerical agreement, or a formal interface do **not** establish RH. The decisive bridge remains an exact theorem identifying the relevant spectrum with the nontrivial zeros of `ξ`, including multiplicities.
