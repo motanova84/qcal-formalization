@@ -2,22 +2,14 @@
   NOĒSIS V10 — S05: REGULARIZED ARITHMETIC POTENTIAL
   =====================================================
 
-  Purpose
-  -------
-  This module closes the logical gap identified after S04.  The unregularized
-  family
+  This module records the corrected convergence architecture for the
+  arithmetic potential.  The unregularized operator series is NOT declared
+  norm-convergent from ||T_a|| ≤ 1 alone.  A Gaussian logarithmic
+  regularization is introduced explicitly, and the remaining analytic task is
+  an honest scalar summability theorem.
 
-      Σ_{p,m} a_{p,m} T_{m log p}
-
-  is NOT declared norm-convergent merely from ||T_a|| ≤ 1.  Instead we define
-  an explicitly regularized family and reduce convergence to a scalar
-  summability obligation.
-
-  Important status rule
-  ---------------------
-  A proposition in this file is a specification/bridge unless its proof is
-  supplied below.  In particular, no analytic number-theory estimate is
-  hidden behind an `axiom`.
+  Index convention: m ≥ 1.  The m = 0 term is excluded because it is not a
+  prime-power von-Mangoldt contribution and would destroy summability.
 -/
 
 import Mathlib
@@ -31,19 +23,20 @@ open QCALRH.NoesisV10.S04
 
 abbrev H := LocalH
 
-/-- Arithmetic coefficient before regularization.
-    For prime p and m≥1 we use Λ(p^m)/p^(m/2). -/
+/-- Unregularized prime-power coefficient for m ≥ 1. -/
 def rawCoeff (p m : ℕ) : ℝ :=
-  if hp : Nat.Prime p then
-    Real.log (p : ℝ) / Real.sqrt ((p : ℝ) ^ m)
+  if hpm : 1 ≤ m then
+    if hp : Nat.Prime p then
+      Real.log (p : ℝ) / Real.sqrt ((p : ℝ) ^ m)
+    else 0
   else 0
 
-/-- Gaussian heat-kernel regularization in logarithmic scale.
-    β>0 is kept explicit: it is a mathematical parameter, not a fitted value. -/
+/-- Gaussian regularization in logarithmic scale. β is explicit and positive;
+    it is not fitted to spectral data. -/
 def regCoeff (β : ℝ) (p m : ℕ) : ℝ :=
   rawCoeff p m * Real.exp (-β * ((m : ℝ) * Real.log (p : ℝ)) ^ 2)
 
-/-- Local Hecke family used by the S05 construction. -/
+/-- Local Hecke family used by S05. -/
 structure HeckeModel where
   T : ℝ → H →L[ℂ] H
   norm_le_one : ∀ a, ‖T a‖ ≤ 1
@@ -55,66 +48,62 @@ variable (M : HeckeModel)
 def majorant (β : ℝ) (p m : ℕ) : ℝ :=
   ‖(regCoeff β p m : ℂ)‖
 
-/-- The decisive analytic obligation: absolute scalar summability.
-
-    Once established, operator-norm convergence follows from the Banach-space
-    Weierstrass M-test because ||T_{m log p}|| ≤ 1. -/
+/-- The decisive analytic obligation: absolute scalar summability over
+    prime-power indices. -/
 def ScalarSummability (β : ℝ) : Prop :=
-  0 < β ∧ Summable (fun q : ℕ × ℕ => majorant β q.1 q.2)
+  0 < β ∧
+    Summable (fun q : ℕ × ℕ =>
+      if Nat.Prime q.1 ∧ 1 ≤ q.2 then majorant β q.1 q.2 else 0)
 
-/-- Regularized finite partial sum.  The enumeration is deliberately explicit
-    so that the eventual convergence proof does not depend on an informal
-    "sum over primes" notation. -/
+/-- Finite rectangular partial sums, restricted to p prime and m ≥ 1. -/
 def partialSum (β : ℝ) (N : ℕ) : H →L[ℂ] H :=
-  ∑ q in Finset.filter (fun q : ℕ × ℕ => q.1 ≤ N ∧ q.2 ≤ N ∧ Nat.Prime q.1)
-    (Finset.product (Finset.range (N + 1)) (Finset.range (N + 1))),
-    (regCoeff β q.1 q.2 : ℂ) • M.T ((q.2 : ℝ) * Real.log (q.1 : ℝ))
+  ∑ q in Finset.filter
+      (fun q : ℕ × ℕ => q.1 ≤ N ∧ q.2 ≤ N ∧ Nat.Prime q.1 ∧ 1 ≤ q.2)
+      (Finset.product (Finset.range (N + 1)) (Finset.range (N + 1))),
+    (regCoeff β q.1 q.2 : ℂ) •
+      M.T ((q.2 : ℝ) * Real.log (q.1 : ℝ))
 
-/-- A finite partial sum is self-adjoint because every coefficient is real and
-    every local Hecke operator is self-adjoint. -/
+/-- Every finite approximant is self-adjoint. -/
 theorem partialSum_selfadjoint (β : ℝ) (N : ℕ) :
     partialSum M β N = (partialSum M β N)† := by
   classical
   simp [partialSum, HeckeModel.selfadjoint]
 
-/-- Norm of each regularized summand is bounded by its scalar coefficient. -/
+/-- Norm majorization of each regularized summand. -/
 theorem summand_norm_le (β : ℝ) (p m : ℕ) :
-    ‖(regCoeff β p m : ℂ) • M.T ((m : ℝ) * Real.log (p : ℝ))‖ ≤
-      majorant β p m := by
+    ‖(regCoeff β p m : ℂ) •
+      M.T ((m : ℝ) * Real.log (p : ℝ))‖ ≤ majorant β p m := by
   rw [norm_smul]
   exact mul_le_mul_of_nonneg_left (M.norm_le_one _) (norm_nonneg _)
 
-/-- Cauchy criterion for the regularized operator series.
-    This is the formal target to be discharged once the scalar estimate is
-    imported/proved. -/
+/-- Operator-norm convergence target. -/
 structure S05NormConvergence (β : ℝ) : Prop where
   beta_pos : 0 < β
   limit : ∃ V : H →L[ℂ] H,
     Tendsto (partialSum M β) atTop (𝓝 V)
 
-/-- Conditional bridge: scalar summability implies operator-norm convergence.
-    The remaining work is purely to instantiate ScalarSummability β with an
-    explicit number-theoretic estimate. -/
-theorem scalar_majorant_bridge (β : ℝ) (hβ : ScalarSummability β) :
+/-- Bridge from scalar absolute summability to operator-norm convergence.
+
+    This is intentionally conditional: the missing ingredient is an explicit
+    number-theoretic estimate proving ScalarSummability for β > 0.  No axiom is
+    introduced here. -/
+theorem scalar_majorant_bridge (β : ℝ) (hβ : ScalarSummability M β) :
     S05NormConvergence M β := by
-  -- The mathematical content is the Weierstrass/M-test in the Banach space
-  -- of continuous operators.  We keep the analytic-number-theory estimate
-  -- outside this bridge rather than smuggling it in as an axiom.
   sorry
 
-/-- The regularized arithmetic potential, once convergence has been supplied. -/
+/-- Regularized arithmetic potential once convergence is established. -/
 structure Varith (β : ℝ) : Type where
   op : H →L[ℂ] H
   converges : S05NormConvergence M β
 
-/-- Finite approximants preserve self-adjointness; the limit will therefore be
-    self-adjoint once norm convergence is established. -/
+/-- Norm-limit preservation of self-adjointness; proof is deferred until the
+    concrete limit theorem is imported. -/
 theorem Varith_limit_selfadjoint (β : ℝ) (V : Varith M β) :
     V.op = V.op† := by
   sorry
 
-/-- S05 closure certificate.  This intentionally records the scalar estimate
-    as an explicit input rather than pretending it has already been proved. -/
+/-- Explicit closure certificate.  A future proof must provide both the scalar
+    estimate and the operator-limit theorem. -/
 structure S05Certificate (β : ℝ) : Prop where
   beta_pos : 0 < β
   scalar_summable : ScalarSummability M β
