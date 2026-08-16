@@ -1,10 +1,12 @@
 # NOĒSIS V10 — Construction Status
 
-**Branch:** `noesis-v10-architecture`
+**Canonical repository:** `motanova84/qcal-formalization`
+
+**Working branch:** `noesis-v10-s12-consolidation`
 
 ## Current state
 
-The V10 architecture is now anchored in the repository as a separate, auditable layer. Existing QCAL formalizations are preserved. The new layer does not overwrite earlier certification artifacts.
+The V10 architecture remains concentrated in `QCAL/NoesisV10/`. No new parallel repository is being used for the spectral bridge. Existing QCAL formalizations and historical certification artifacts are preserved.
 
 ### Build order
 
@@ -31,34 +33,47 @@ S10 compactness
   ↓
 S11 self-adjoint total operator
   ↓
-S12 trace formula
+S12 spectral counting asymptotic  ← current frontier
   ↓
-S13 determinant
+S13 trace formula
   ↓
-S14 spectrum ↔ zeros
+S14 determinant / spectrum ↔ zeros
   ↓
 S15 multiplicities
   ↓
 RH
 ```
 
-## Important mathematical discipline
+## S11 audit correction
 
-The repository currently contains prior documents that describe completed/certified results. The V10 ledger is stricter: it distinguishes executable Lean code from mathematical closure. A theorem containing `sorry`, an interface structure, or a prose claim is **not** counted as a proved theorem in this ledger.
+S11 is to be understood through the spectral theorem for self-adjoint operators with compact resolvent. The phrase “Hilbert–Schmidt theorem” is not used as the justification. Since the confining Schrödinger operator is unbounded, no finite operator-norm identity `‖H‖ = sup |λ_n|` is asserted. The valid diagonal representation is on the operator domain with the usual graph/square-summability condition.
 
-The program therefore has two simultaneous layers:
+## S12 mathematical checkpoint
 
-1. **Existing formalization layer** — preserved historical work and already compiled developments.
-2. **V10 closure layer** — the dependency-complete route whose open obligations are closed one by one.
+For
 
-## First closure targets
+`W_α(u) = α log(1 + u²)`, `α > 0`,
 
-1. S01: establish the exact quotient model and Haar measure used by the analytic construction.
-2. S02/S03: establish the operator domain and Mellin normalization.
-3. S04: establish the shift operators and adjoint relations.
-4. S05/S06: replace the heuristic delta-kernel regularization with a mathematically legitimate operator construction.
-5. Only then revisit W and the compactness argument.
+one-dimensional semiclassical analysis gives, for the unperturbed operator,
+
+`N₀(T) ~ sqrt(2α/π) exp(T/(2α))`.
+
+For a bounded real perturbation `V`, min–max comparison preserves the exponential rate:
+
+`lim_{T→∞} log N(T)/T = 1/(2α)`.
+
+The exact prefactor is recorded only for `V = 0`; the logarithmic rate is the robust statement under bounded perturbations.
+
+This creates a **structural obstruction**, not a failure of S10/S11: the Riemann–von Mangoldt counting law is
+
+`N_ζ(T) ~ T/(2π) log(T/(2πe))`,
+
+whose logarithmic rate divided by `T` tends to zero. Therefore no fixed `α > 0` in the logarithmic potential can produce the Riemann zero-counting law.
+
+## Formalization discipline
+
+A Lean interface, structure, or prose statement is not counted as a proved theorem. No `sorry` or hidden axiom is used to mark S12 complete. The present branch records the exact theorem obligations and the obstruction that must be resolved before S13–S15 can claim an arithmetic bridge.
 
 ## Gate before any RH certification
 
-S12, S13, S14 and S15 must be independently closed. In particular, self-adjointness plus a discrete real spectrum is insufficient by itself; the exact equality between that spectrum and the nontrivial zeros of ξ, with multiplicities, is the decisive bridge.
+S12, S13, S14 and S15 must be independently closed. In particular, self-adjointness plus a discrete real spectrum is insufficient by itself; the decisive bridge is an independently proved identification with the nontrivial zeros of `ξ`, including multiplicities.
