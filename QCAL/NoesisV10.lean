@@ -1,9 +1,14 @@
 import QCAL.NoesisV10.Obligations
+import QCAL.NoesisV10.S07_TraceFormula
+import QCAL.NoesisV10.S12_RaySingerDeterminant
+import QCAL.NoesisV10.S07_S12_Closure
 
 /-!
 # NOĒSIS V10 module root
 
 This namespace is the canonical entry point for the V10 closure program.
+S07 and S12 are imported as sorry-free formal interfaces with explicit
+analytic certificates for the remaining deep inputs.
 -/
 namespace QCALRH.NoesisV10
 
