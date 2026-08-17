@@ -1,6 +1,7 @@
 import QCAL.NoesisV10.Obligations
 import QCAL.NoesisV10.S07_TraceFormula
 import QCAL.NoesisV10.S12_RaySingerDeterminant
+import QCAL.NoesisV10.S07_S12_Closure
 
 /-!
 # NOĒSIS V10 module root
