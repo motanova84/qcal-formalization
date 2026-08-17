@@ -1,14 +1,17 @@
 import QCAL.NoesisV10.Obligations
+import QCAL.NoesisV10.S01_WeylLaw
 import QCAL.NoesisV10.S07_TraceFormula
 import QCAL.NoesisV10.S12_RaySingerDeterminant
 import QCAL.NoesisV10.S07_S12_Closure
+import QCAL.NoesisV10.KernelFivePillars
 
 /-!
 # NOĒSIS V10 module root
 
 This namespace is the canonical entry point for the V10 closure program.
-S07 and S12 are imported as sorry-free formal interfaces with explicit
-analytic certificates for the remaining deep inputs.
+S01 exposes the Weyl-law contract and KernelFivePillars exposes the executable
+logical spine connecting the five certified inputs to the critical-line
+conclusion.  Deep analytic inputs remain explicit certificate fields.
 -/
 namespace QCALRH.NoesisV10
 
