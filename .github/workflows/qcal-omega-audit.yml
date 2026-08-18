@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'ledger/**'
+      - 'AUDIT/**'
+      - 'tests/test_audit_ledger.py'
       - 'scripts/validate_omega_ledger.py'
       - 'QCAL/**'
       - 'QCAL_V3/**'
@@ -11,6 +13,8 @@ on:
   pull_request:
     paths:
       - 'ledger/**'
+      - 'AUDIT/**'
+      - 'tests/test_audit_ledger.py'
       - 'scripts/validate_omega_ledger.py'
       - 'QCAL/**'
       - 'QCAL_V3/**'
@@ -25,7 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate ledger schema and inheritance
+      - name: Validate canonical QCAL Ω ledger
+        run: python3 -m pytest tests/test_audit_ledger.py -q
+      - name: Validate legacy ledger schema
         run: python3 scripts/validate_omega_ledger.py ledger/omega.json
       - name: Install Lean toolchain
         shell: bash
