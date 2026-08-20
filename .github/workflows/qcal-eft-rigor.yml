@@ -1,0 +1,41 @@
+name: QCAL-EFT Rigor Audit
+
+on:
+  push:
+    paths:
+      - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
+      - 'scripts/qcal_eft_audit.py'
+      - 'tests/test_qcal_eft_audit.py'
+      - '.github/workflows/qcal-eft-rigor.yml'
+  pull_request:
+    paths:
+      - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
+      - 'scripts/qcal_eft_audit.py'
+      - 'tests/test_qcal_eft_audit.py'
+      - '.github/workflows/qcal-eft-rigor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run deterministic unit tests
+        run: python3 -m unittest discover -s tests -p 'test_qcal_eft_audit.py' -v
+      - name: Run scientific closure gate
+        run: python3 scripts/qcal_eft_audit.py
+
+  lean-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean toolchain
+        shell: bash
+        run: |
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:stable
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Compile QCAL-EFT stability audit
+        run: lake env lean QCAL/Formalization/QCALEFTStabilityAudit.lean
