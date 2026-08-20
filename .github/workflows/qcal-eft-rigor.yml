@@ -1,0 +1,58 @@
+name: QCAL-EFT Rigor Audit
+
+on:
+  push:
+    paths:
+      - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
+      - 'QCAL/Formalization/QCALEFTDispersionCore.lean'
+      - 'QCAL/Formalization/QCALEFTActionBridge.lean'
+      - 'scripts/qcal_eft_audit.py'
+      - 'scripts/qcal_eft_dimensional_audit.py'
+      - 'scripts/qcal_eft_dispersion_audit.py'
+      - 'scripts/qcal_eft_source_equation_audit.py'
+      - 'tests/test_qcal_eft_audit.py'
+      - 'tests/test_qcal_eft_dimensions.py'
+      - '.github/workflows/qcal-eft-rigor.yml'
+  pull_request:
+    paths:
+      - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
+      - 'QCAL/Formalization/QCALEFTDispersionCore.lean'
+      - 'QCAL/Formalization/QCALEFTActionBridge.lean'
+      - 'scripts/qcal_eft_audit.py'
+      - 'scripts/qcal_eft_dimensional_audit.py'
+      - 'scripts/qcal_eft_dispersion_audit.py'
+      - 'scripts/qcal_eft_source_equation_audit.py'
+      - 'tests/test_qcal_eft_audit.py'
+      - 'tests/test_qcal_eft_dimensions.py'
+      - '.github/workflows/qcal-eft-rigor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run deterministic unit tests
+        run: python3 -m unittest discover -s tests -p 'test_qcal_eft_*.py' -v
+      - name: Run numerical closure gate
+        run: python3 scripts/qcal_eft_audit.py
+      - name: Reproduce source equations 8.2-8.6
+        run: python3 scripts/qcal_eft_source_equation_audit.py
+
+  lean-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean toolchain
+        shell: bash
+        run: |
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:stable
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Compile QCAL-EFT formal audits
+        run: |
+          lake env lean QCAL/Formalization/QCALEFTStabilityAudit.lean
+          lake env lean QCAL/Formalization/QCALEFTDispersionCore.lean
+          lake env lean QCAL/Formalization/QCALEFTActionBridge.lean
