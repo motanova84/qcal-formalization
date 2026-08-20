@@ -2,29 +2,24 @@
 
 **Branch:** `audit/qcal-eft-rigor-20260820`
 
-This audit is designed to prevent a numerical or algebraic claim from being
-called a proof merely because a desired value was inserted as an input.
+This audit prevents a numerical or algebraic claim from being called a proof merely because a desired value was inserted as an input.
 
-## 1. Evidence classes
+## Evidence classes
 
-Every QCAL-EFT result is classified as one of:
-
-- **DEFINITION** — a quantity fixed by definition.
+- **DEFINITION** — fixed by definition.
 - **ALGEBRAIC THEOREM** — follows from displayed equations and explicit hypotheses.
-- **NUMERICAL CONSEQUENCE** — computed from the displayed equations and SI constants.
-- **EMPIRICAL INPUT** — taken from an external dataset or manuscript benchmark.
+- **NUMERICAL CONSEQUENCE** — independently computed from displayed equations and declared SI constants.
+- **EMPIRICAL INPUT** — imported from an external dataset or benchmark.
 - **OPEN / BLOCKED** — not yet reconciled by an executable test.
 
-Lean proves the algebraic class. Python independently evaluates the numerical
-class. Neither is allowed to silently promote an empirical input into a theorem.
+Lean proves the algebraic class. Python independently evaluates the numerical class. Neither is allowed to silently promote an empirical input into a theorem.
 
-## 2. Current formal anchors
+## Formal anchors
 
 The manuscript fixes
 
 \[
-f_0 = 141.7001\;\mathrm{Hz},\qquad
-\omega_0 = 2\pi f_0,
+f_0=141.7001\;\mathrm{Hz},\qquad \omega_0=2\pi f_0,
 \]
 
 and defines
@@ -33,74 +28,62 @@ and defines
 m_{\rm eff}=\frac{\hbar\omega_0}{c^2}.
 \]
 
-The deterministic Python audit reproduces the resulting mass scale.
+The Lean module `QCAL/Formalization/QCALEFTStabilityAudit.lean` proves the displayed sound-speed cancellation and positivity of the displayed dispersion relation under an explicit sufficient condition. These proofs do **not** claim that the underlying physical hypotheses follow from the action.
 
-The Lean module `QCAL/Formalization/QCALEFTStabilityAudit.lean` proves:
+## Dimensional gate
 
-1. the exact algebraic cancellation obtained by substituting the manuscript's
-   curvature relation into its displayed definition of `c_s²`;
-2. positivity of the displayed dispersion relation under the **exact
-   sufficient condition obtained from that dispersion relation**.
+`scripts/qcal_eft_dimensional_audit.py` performs exact SI base-dimension algebra using `(M,L,T)` exponents.
 
-The second point is intentionally stated separately from the condition in the
-manuscript's earlier Lean example. The repository must not certify a weaker or
-non-equivalent hypothesis merely because a tactic happens to close a goal.
+It verifies, among other relations,
 
-## 3. Numerical closure gates
+\[
+[c_s^2 k^2]=T^{-2},\qquad [G\rho]=T^{-2},\qquad [m_{\rm eff}]=M.
+\]
 
-The script `scripts/qcal_eft_audit.py` transcribes the manuscript's Section 26
-frequency and Jeans equations literally.
+It deliberately blocks the literal quantum-pressure term
 
-It currently checks:
+\[
+\frac{k^4}{m_{\rm eff}^2}
+\]
 
-- fixed spectral anchor `141.7001 Hz`;
-- `m_eff` derived from the spectral anchor;
-- literal reproduction of the Section 26 frequency formula;
-- consistency of that formula with the stated `±0.0012 Hz` window;
-- literal reproduction of the Section 26 Jeans wavelength against the stated
-  `2.51 × 10^15 m` benchmark.
+because in SI dimensions as written it is **not** a frequency-squared quantity. The missing normalization/factors must be specified explicitly before this term can be accepted as part of an SI dispersion relation.
 
-The final gate intentionally exits non-zero if any registered numerical claim
-fails. A failure is evidence that the manuscript equation and its stated
-number have not yet been reconciled; it is **not** converted into a warning.
+## Numerical closure gates
 
-## 4. Current scientific blocker
+`scripts/qcal_eft_audit.py` transcribes the manuscript's Section 26 frequency and Jeans equations literally and checks the fixed spectral anchor, `m_eff`, the Section 26 frequency formula, its stated tolerance, and the Section 26 Jeans wavelength benchmark.
 
-The literal evaluation of Eq. (26.3), using the constants and parameters
-specified in the manuscript, does not reproduce the stated Eq. (26.4) value
-for `lambda_J`.
+The final gate exits non-zero if a registered numerical claim fails. A failure is evidence to investigate, never a warning to ignore.
 
-This discrepancy is deliberately preserved as a failing closure gate until the
-following are reconciled explicitly:
+## Current scientific blockers
 
-- the precise definition and units of `rho_0`;
-- the meaning and units of `c_s²` in Eq. (26.3);
-- the normalization of the field and density variables;
-- the exact definition of `k_J` and whether `lambda_J = 2π/k_J` is intended;
-- any omitted scale-factor or gravitational-coupling factors.
+1. **Jeans closure:** the literal evaluation of Eq. (26.3), using the constants and parameters specified in the manuscript, does not reproduce the stated Eq. (26.4) wavelength.
+2. **Dispersion dimensions:** the displayed `k⁴/m_eff²` quantum term is dimensionally incomplete in SI unless additional normalization/factors are specified.
 
-No numerical correction is inserted into the audit to make the test pass.
+Before numerical closure, reconcile explicitly:
 
-## 5. Reproducibility
+- definition and units of `rho_0`;
+- normalization of field/density variables;
+- meaning and units of `c_s²`;
+- exact definition of `k_J`;
+- whether `lambda_J = 2π/k_J` is intended;
+- scale-factor, `G`, `c`, or `hbar` factors;
+- normalization used for the quantum-pressure term.
 
-Run locally:
+No numerical correction is inserted merely to make a test pass.
+
+## Reproducibility
 
 ```bash
-python3 -m unittest discover -s tests -p 'test_qcal_eft_audit.py' -v
+python3 -m unittest discover -s tests -p 'test_qcal_eft_*.py' -v
 python3 scripts/qcal_eft_audit.py
-```
-
-Compile the formal proof with the repository Lean toolchain:
-
-```bash
+python3 scripts/qcal_eft_dimensional_audit.py
 lake env lean QCAL/Formalization/QCALEFTStabilityAudit.lean
 ```
 
-GitHub Actions runs both the Python closure gate and the Lean compilation gate
-through `.github/workflows/qcal-eft-rigor.yml`.
+GitHub Actions runs the regression and Lean gates through `.github/workflows/qcal-eft-rigor.yml`.
 
-## 6. Closure criterion
+## Closure criterion
 
-The QCAL-EFT numerical closure is considered **OPEN** until every registered
-numerical gate is green and every physical implication has been separated from
-its assumptions. This is the repository's anti-self-confirmation rule.
+QCAL-EFT numerical closure is **OPEN** until every registered numerical gate is green and every physical implication has been separated from its assumptions.
+
+> **A failed test is evidence to investigate, never a number to overwrite.**
