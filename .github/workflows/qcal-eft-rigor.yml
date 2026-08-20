@@ -5,13 +5,17 @@ on:
     paths:
       - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
       - 'scripts/qcal_eft_audit.py'
+      - 'scripts/qcal_eft_dimensional_audit.py'
       - 'tests/test_qcal_eft_audit.py'
+      - 'tests/test_qcal_eft_dimensions.py'
       - '.github/workflows/qcal-eft-rigor.yml'
   pull_request:
     paths:
       - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
       - 'scripts/qcal_eft_audit.py'
+      - 'scripts/qcal_eft_dimensional_audit.py'
       - 'tests/test_qcal_eft_audit.py'
+      - 'tests/test_qcal_eft_dimensions.py'
       - '.github/workflows/qcal-eft-rigor.yml'
   workflow_dispatch:
 
@@ -19,13 +23,13 @@ permissions:
   contents: read
 
 jobs:
-  python-audit:
+  python-regression:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Run deterministic unit tests
-        run: python3 -m unittest discover -s tests -p 'test_qcal_eft_audit.py' -v
-      - name: Run scientific closure gate
+        run: python3 -m unittest discover -s tests -p 'test_qcal_eft_*.py' -v
+      - name: Run numerical closure gate
         run: python3 scripts/qcal_eft_audit.py
 
   lean-audit:
