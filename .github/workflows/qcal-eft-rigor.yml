@@ -6,24 +6,30 @@ on:
       - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
       - 'QCAL/Formalization/QCALEFTDispersionCore.lean'
       - 'QCAL/Formalization/QCALEFTActionBridge.lean'
+      - 'QCAL/Formalization/QCALEFTActionToDispersion.lean'
       - 'scripts/qcal_eft_audit.py'
       - 'scripts/qcal_eft_dimensional_audit.py'
       - 'scripts/qcal_eft_dispersion_audit.py'
       - 'scripts/qcal_eft_source_equation_audit.py'
+      - 'scripts/qcal_eft_action_dispersion_audit.py'
       - 'tests/test_qcal_eft_audit.py'
       - 'tests/test_qcal_eft_dimensions.py'
+      - 'tests/test_qcal_eft_action_dispersion.py'
       - '.github/workflows/qcal-eft-rigor.yml'
   pull_request:
     paths:
       - 'QCAL/Formalization/QCALEFTStabilityAudit.lean'
       - 'QCAL/Formalization/QCALEFTDispersionCore.lean'
       - 'QCAL/Formalization/QCALEFTActionBridge.lean'
+      - 'QCAL/Formalization/QCALEFTActionToDispersion.lean'
       - 'scripts/qcal_eft_audit.py'
       - 'scripts/qcal_eft_dimensional_audit.py'
       - 'scripts/qcal_eft_dispersion_audit.py'
       - 'scripts/qcal_eft_source_equation_audit.py'
+      - 'scripts/qcal_eft_action_dispersion_audit.py'
       - 'tests/test_qcal_eft_audit.py'
       - 'tests/test_qcal_eft_dimensions.py'
+      - 'tests/test_qcal_eft_action_dispersion.py'
       - '.github/workflows/qcal-eft-rigor.yml'
   workflow_dispatch:
 
@@ -41,6 +47,8 @@ jobs:
         run: python3 scripts/qcal_eft_audit.py
       - name: Reproduce source equations 8.2-8.6
         run: python3 scripts/qcal_eft_source_equation_audit.py
+      - name: Execute action-to-dispersion identities
+        run: python3 scripts/qcal_eft_action_dispersion_audit.py
 
   lean-audit:
     runs-on: ubuntu-latest
@@ -56,3 +64,4 @@ jobs:
           lake env lean QCAL/Formalization/QCALEFTStabilityAudit.lean
           lake env lean QCAL/Formalization/QCALEFTDispersionCore.lean
           lake env lean QCAL/Formalization/QCALEFTActionBridge.lean
+          lake env lean QCAL/Formalization/QCALEFTActionToDispersion.lean
