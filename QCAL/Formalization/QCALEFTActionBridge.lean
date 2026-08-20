@@ -3,6 +3,24 @@ import Mathlib.Tactic
 
 namespace QCALEFT
 
+/-- Exact action-level symbols transcribed from QCAL-EFT Eq. (5.1).
+
+The source document writes
+  S = ∫ √(-g) [ -g^(μν) ∂μ Ψ* ∂ν Ψ - U(|Ψ|²)
+                - ζ R |Ψ|² - (c₂/2) A_eff² |Ψ|² ].
+
+This structure records the scalar coefficients only. It is NOT a replacement
+for the tensor-calculus derivation of the Euler-Lagrange equations. -/
+structure ActionParams where
+  zeta : ℝ
+  c2 : ℝ
+  aeff2 : ℝ
+
+/-- Scalar potential sector appearing in Eq. (5.1), with the curvature and
+vector-background terms kept explicit. -/
+def effectivePotential (p : ActionParams) (psiNormSq U R : ℝ) : ℝ :=
+  U + p.zeta * R * psiNormSq + (p.c2 / 2) * p.aeff2 * psiNormSq
+
 /-- Formal bridge, not a hidden derivation. The action-level calculation must
 supply the kernel hypothesis before the candidate dispersion becomes physical. -/
 structure QuadraticKernel where
@@ -41,5 +59,19 @@ theorem qcal_candidate_dispersion
   unfold modeKernel at hkernel
   field_simp [hm, ha] at hkernel
   nlinarith [hkernel]
+
+/-- The source document's curvature-of-potential identity (Eq. 8.3) implies
+its stated cancellation in c_s² (Eq. 8.4), once Eq. 6.4 is taken as a premise.
+This theorem deliberately exposes the premise rather than hiding it in a
+constructed definition. -/
+theorem source_sound_speed_cancellation
+    (rho0 m_eff omega0 c2 Aeff zeta R0 d2U : ℝ)
+    (hm : m_eff ≠ 0)
+    (hd2U : d2U = omega0^2 - (c2 / 2) * Aeff^2 + zeta * R0) :
+    (rho0 / m_eff) *
+      (d2U + (c2 / 2) * Aeff^2 - zeta * R0)
+      = (rho0 / m_eff) * omega0^2 := by
+  rw [hd2U]
+  ring
 
 end QCALEFT
