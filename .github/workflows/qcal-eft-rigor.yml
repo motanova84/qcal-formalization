@@ -7,14 +7,17 @@ on:
       - 'QCAL/Formalization/QCALEFTDispersionCore.lean'
       - 'QCAL/Formalization/QCALEFTActionBridge.lean'
       - 'QCAL/Formalization/QCALEFTActionToDispersion.lean'
+      - 'QCAL/Formalization/QCALEFTActionToKernel.lean'
       - 'scripts/qcal_eft_audit.py'
       - 'scripts/qcal_eft_dimensional_audit.py'
       - 'scripts/qcal_eft_dispersion_audit.py'
       - 'scripts/qcal_eft_source_equation_audit.py'
       - 'scripts/qcal_eft_action_dispersion_audit.py'
+      - 'scripts/qcal_eft_action_kernel_derivation.py'
       - 'tests/test_qcal_eft_audit.py'
       - 'tests/test_qcal_eft_dimensions.py'
       - 'tests/test_qcal_eft_action_dispersion.py'
+      - 'tests/test_qcal_eft_action_kernel_derivation.py'
       - '.github/workflows/qcal-eft-rigor.yml'
   pull_request:
     paths:
@@ -22,14 +25,17 @@ on:
       - 'QCAL/Formalization/QCALEFTDispersionCore.lean'
       - 'QCAL/Formalization/QCALEFTActionBridge.lean'
       - 'QCAL/Formalization/QCALEFTActionToDispersion.lean'
+      - 'QCAL/Formalization/QCALEFTActionToKernel.lean'
       - 'scripts/qcal_eft_audit.py'
       - 'scripts/qcal_eft_dimensional_audit.py'
       - 'scripts/qcal_eft_dispersion_audit.py'
       - 'scripts/qcal_eft_source_equation_audit.py'
       - 'scripts/qcal_eft_action_dispersion_audit.py'
+      - 'scripts/qcal_eft_action_kernel_derivation.py'
       - 'tests/test_qcal_eft_audit.py'
       - 'tests/test_qcal_eft_dimensions.py'
       - 'tests/test_qcal_eft_action_dispersion.py'
+      - 'tests/test_qcal_eft_action_kernel_derivation.py'
       - '.github/workflows/qcal-eft-rigor.yml'
   workflow_dispatch:
 
@@ -41,6 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install symbolic dependencies
+        run: python3 -m pip install --disable-pip-version-check sympy
       - name: Run deterministic unit tests
         run: python3 -m unittest discover -s tests -p 'test_qcal_eft_*.py' -v
       - name: Run numerical closure gate
@@ -49,6 +57,8 @@ jobs:
         run: python3 scripts/qcal_eft_source_equation_audit.py
       - name: Execute action-to-dispersion identities
         run: python3 scripts/qcal_eft_action_dispersion_audit.py
+      - name: Expand source action to quadratic scalar kernel
+        run: python3 scripts/qcal_eft_action_kernel_derivation.py
 
   lean-audit:
     runs-on: ubuntu-latest
@@ -65,3 +75,4 @@ jobs:
           lake env lean QCAL/Formalization/QCALEFTDispersionCore.lean
           lake env lean QCAL/Formalization/QCALEFTActionBridge.lean
           lake env lean QCAL/Formalization/QCALEFTActionToDispersion.lean
+          lake env lean QCAL/Formalization/QCALEFTActionToKernel.lean
